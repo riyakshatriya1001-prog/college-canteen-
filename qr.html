@@ -1,0 +1,130 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Canteen QR Code</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+</script>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    text-align: center;
+    padding: 40px;
+}
+
+.box {
+    background: white;
+    max-width: 550px;
+    margin: auto;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.15);
+}
+
+h1 {
+    color: #ff6b35;
+}
+
+input {
+    width: 90%;
+    padding: 13px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+button {
+    background: #ff6b35;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#qrcode {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🍴 College Canteen</h1>
+
+<p>
+Scan this QR code to open the
+Canteen Preorder System
+</p>
+
+<input
+type="text"
+id="website"
+placeholder="Enter customer page URL">
+
+<br>
+
+<button onclick="generateQR()">
+Generate QR Code
+</button>
+
+<div id="qrcode"></div>
+
+</div>
+
+<script>
+
+function generateQR() {
+
+    let url =
+        document.getElementById("website").value;
+
+    if (url.trim() === "") {
+
+        alert(
+            "Please enter your customer website URL."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "qrcode"
+    ).innerHTML = "";
+
+    new QRCode(
+        document.getElementById("qrcode"),
+        {
+            text: url,
+            width: 250,
+            height: 250
+        }
+    );
+
+}
+
+</script>
+
+</body>
+
+</html>
+```

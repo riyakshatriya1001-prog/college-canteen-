@@ -1,0 +1,777 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Canteen - Customer</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f8;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(135deg, #ff6b35, #ff914d);
+    color: white;
+    padding: 25px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section-title {
+    margin: 25px 0 15px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.category-btn {
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 16px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.category-btn.active,
+.category-btn:hover {
+    background: #ff6b35;
+    color: white;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.1);
+    text-align: center;
+}
+
+.food-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #777;
+    min-height: 38px;
+    margin-top: 8px;
+}
+
+.price {
+    color: #ff6b35;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 12px 0;
+}
+
+button {
+    border: none;
+    background: #ff6b35;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e95420;
+}
+
+.cart,
+.form-section {
+    background: white;
+    margin-top: 35px;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.1);
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 20px;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.quantity button {
+    padding: 5px 10px;
+}
+
+.remove {
+    background: #dc3545;
+}
+
+.total {
+    text-align: right;
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 16px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+}
+
+.success {
+    display: none;
+    background: #d4edda;
+    color: #155724;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.owner-link {
+    text-align: center;
+    margin: 30px;
+}
+
+.owner-link a {
+    background: #222;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+footer {
+    margin-top: 40px;
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+@media(max-width:650px) {
+    .cart-item {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍴 College Canteen</h1>
+    <p>Preorder your food and skip the queue!</p>
+</header>
+
+<div class="container">
+
+<h2 class="section-title">🍽️ Food Menu</h2>
+
+<div class="categories">
+
+<button class="category-btn active"
+onclick="filterFood('all',this)">All</button>
+
+<button class="category-btn"
+onclick="filterFood('breakfast',this)">🌅 Breakfast</button>
+
+<button class="category-btn"
+onclick="filterFood('snacks',this)">🍟 Snacks</button>
+
+<button class="category-btn"
+onclick="filterFood('meals',this)">🍛 Meals</button>
+
+<button class="category-btn"
+onclick="filterFood('fastfood',this)">🍔 Fast Food</button>
+
+<button class="category-btn"
+onclick="filterFood('juice',this)">🧃 Juice</button>
+
+<button class="category-btn"
+onclick="filterFood('drinks',this)">🥤 Drinks</button>
+
+</div>
+
+<div class="menu">
+
+<!-- BREAKFAST -->
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🥞</div>
+<h3>Dosa</h3>
+<p>Crispy dosa with chutney and sambar</p>
+<div class="price">₹40</div>
+<button onclick="addToCart('Dosa',40)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🥣</div>
+<h3>Idli</h3>
+<p>Soft idli with chutney and sambar</p>
+<div class="price">₹30</div>
+<button onclick="addToCart('Idli',30)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🍲</div>
+<h3>Vada</h3>
+<p>Crispy South Indian medu vada</p>
+<div class="price">₹25</div>
+<button onclick="addToCart('Vada',25)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🍚</div>
+<h3>Upma</h3>
+<p>Fresh vegetable upma</p>
+<div class="price">₹30</div>
+<button onclick="addToCart('Upma',30)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🥞</div>
+<h3>Masala Dosa</h3>
+<p>Dosa filled with spicy potato masala</p>
+<div class="price">₹50</div>
+<button onclick="addToCart('Masala Dosa',50)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="breakfast">
+<div class="food-icon">🥯</div>
+<h3>Buns</h3>
+<p>Soft and sweet Mangalore-style buns</p>
+<div class="price">₹25</div>
+<button onclick="addToCart('Buns',25)">Add to Cart</button>
+</div>
+
+<!-- SNACKS -->
+
+<div class="card" data-category="snacks">
+<div class="food-icon">🍟</div>
+<h3>French Fries</h3>
+<p>Crispy golden potato fries</p>
+<div class="price">₹45</div>
+<button onclick="addToCart('French Fries',45)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="snacks">
+<div class="food-icon">🍩</div>
+<h3>Gulab Jamun</h3>
+<p>Soft sweet dessert</p>
+<div class="price">₹30</div>
+<button onclick="addToCart('Gulab Jamun',30)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="snacks">
+<div class="food-icon">🥟</div>
+<h3>Samosa</h3>
+<p>Crispy potato-filled samosa</p>
+<div class="price">₹15</div>
+<button onclick="addToCart('Samosa',15)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="snacks">
+<div class="food-icon">🍿</div>
+<h3>Pakoda</h3>
+<p>Crispy vegetable pakoda</p>
+<div class="price">₹25</div>
+<button onclick="addToCart('Pakoda',25)">Add to Cart</button>
+</div>
+
+<!-- MEALS -->
+
+<div class="card" data-category="meals">
+<div class="food-icon">🍛</div>
+<h3>Veg Meals</h3>
+<p>Rice, curry, vegetables and sambar</p>
+<div class="price">₹70</div>
+<button onclick="addToCart('Veg Meals',70)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="meals">
+<div class="food-icon">🍚</div>
+<h3>Palav</h3>
+<p>Flavourful vegetable rice</p>
+<div class="price">₹60</div>
+<button onclick="addToCart('Palav',60)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="meals">
+<div class="food-icon">🍚</div>
+<h3>Curd Rice</h3>
+<p>Cool and refreshing curd rice</p>
+<div class="price">₹40</div>
+<button onclick="addToCart('Curd Rice',40)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="meals">
+<div class="food-icon">🍚</div>
+<h3>Fried Rice</h3>
+<p>Vegetable fried rice</p>
+<div class="price">₹60</div>
+<button onclick="addToCart('Fried Rice',60)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="meals">
+<div class="food-icon">🍜</div>
+<h3>Noodles</h3>
+<p>Hot and spicy vegetable noodles</p>
+<div class="price">₹60</div>
+<button onclick="addToCart('Noodles',60)">Add to Cart</button>
+</div>
+
+<!-- FAST FOOD -->
+
+<div class="card" data-category="fastfood">
+<div class="food-icon">🍔</div>
+<h3>Veg Burger</h3>
+<p>Fresh vegetable burger</p>
+<div class="price">₹50</div>
+<button onclick="addToCart('Veg Burger',50)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="fastfood">
+<div class="food-icon">🍕</div>
+<h3>Pizza</h3>
+<p>Cheese and vegetable pizza</p>
+<div class="price">₹80</div>
+<button onclick="addToCart('Pizza',80)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="fastfood">
+<div class="food-icon">🥪</div>
+<h3>Sandwich</h3>
+<p>Fresh vegetable sandwich</p>
+<div class="price">₹40</div>
+<button onclick="addToCart('Sandwich',40)">Add to Cart</button>
+</div>
+
+<!-- JUICE -->
+
+<div class="card" data-category="juice">
+<div class="food-icon">🍊</div>
+<h3>Orange Juice</h3>
+<p>Fresh orange juice</p>
+<div class="price">₹40</div>
+<button onclick="addToCart('Orange Juice',40)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="juice">
+<div class="food-icon">🍋</div>
+<h3>Lemon Juice</h3>
+<p>Fresh lemon juice</p>
+<div class="price">₹25</div>
+<button onclick="addToCart('Lemon Juice',25)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="juice">
+<div class="food-icon">🍉</div>
+<h3>Watermelon Juice</h3>
+<p>Fresh watermelon juice</p>
+<div class="price">₹35</div>
+<button onclick="addToCart('Watermelon Juice',35)">Add to Cart</button>
+</div>
+
+<!-- DRINKS -->
+
+<div class="card" data-category="drinks">
+<div class="food-icon">☕</div>
+<h3>Tea</h3>
+<p>Hot milk tea</p>
+<div class="price">₹15</div>
+<button onclick="addToCart('Tea',15)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="drinks">
+<div class="food-icon">☕</div>
+<h3>Coffee</h3>
+<p>Hot filter coffee</p>
+<div class="price">₹20</div>
+<button onclick="addToCart('Coffee',20)">Add to Cart</button>
+</div>
+
+<div class="card" data-category="drinks">
+<div class="food-icon">🥛</div>
+<h3>Milkshake</h3>
+<p>Cold and creamy milkshake</p>
+<div class="price">₹50</div>
+<button onclick="addToCart('Milkshake',50)">Add to Cart</button>
+</div>
+
+</div>
+
+<!-- CART -->
+
+<div class="cart">
+
+<h2>🛒 Your Cart</h2>
+
+<div id="cartItems">
+<p>Your cart is empty.</p>
+</div>
+
+<div class="total">
+Total: ₹<span id="total">0</span>
+</div>
+
+</div>
+
+<!-- CUSTOMER FORM -->
+
+<div class="form-section">
+
+<h2>👤 Customer Details</h2>
+
+<form id="orderForm">
+
+<label>Name</label>
+<input type="text" id="name" required>
+
+<label>Student / Employee ID</label>
+<input type="text" id="studentId" required>
+
+<label>Phone Number</label>
+<input type="tel" id="phone" required>
+
+<label>Pickup Time</label>
+
+<select id="pickup" required>
+<option value="">Select pickup time</option>
+<option>10:00 AM</option>
+<option>10:30 AM</option>
+<option>11:00 AM</option>
+<option>11:30 AM</option>
+<option>12:00 PM</option>
+<option>12:30 PM</option>
+<option>1:00 PM</option>
+<option>1:30 PM</option>
+<option>2:00 PM</option>
+</select>
+
+<label>Special Instructions</label>
+
+<textarea id="notes"
+rows="3"
+placeholder="Any special instructions..."></textarea>
+
+<button type="submit" class="submit-btn">
+✅ Place Preorder
+</button>
+
+</form>
+
+<div class="success" id="successMessage">
+
+<h3>🎉 Order Placed Successfully!</h3>
+
+<p id="orderDetails"></p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="owner-link">
+<a href="owner.html">🔐 Owner Dashboard</a>
+</div>
+
+<footer>
+<p>🍴 College Canteen Preorder System</p>
+</footer>
+
+<script>
+
+let cart = [];
+
+function addToCart(name, price) {
+
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+    }
+
+    displayCart();
+}
+
+function increaseQuantity(index) {
+    cart[index].quantity++;
+    displayCart();
+}
+
+function decreaseQuantity(index) {
+
+    if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+    } else {
+        cart.splice(index, 1);
+    }
+
+    displayCart();
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    displayCart();
+}
+
+function displayCart() {
+
+    const container =
+        document.getElementById("cartItems");
+
+    const totalElement =
+        document.getElementById("total");
+
+    container.innerHTML = "";
+
+    if (cart.length === 0) {
+
+        container.innerHTML =
+            "<p>Your cart is empty.</p>";
+
+        totalElement.textContent = "0";
+
+        return;
+    }
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        let itemTotal =
+            item.price * item.quantity;
+
+        total += itemTotal;
+
+        let div =
+            document.createElement("div");
+
+        div.className = "cart-item";
+
+        div.innerHTML = `
+
+        <div>
+            <strong>${item.name}</strong><br>
+            ₹${item.price} × ${item.quantity}
+        </div>
+
+        <div class="quantity">
+
+            <button onclick="decreaseQuantity(${index})">
+                −
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button onclick="increaseQuantity(${index})">
+                +
+            </button>
+
+            <button class="remove"
+            onclick="removeItem(${index})">
+                Remove
+            </button>
+
+        </div>
+
+        <strong>₹${itemTotal}</strong>
+
+        `;
+
+        container.appendChild(div);
+    });
+
+    totalElement.textContent = total;
+}
+
+function filterFood(category, button) {
+
+    document.querySelectorAll(".category-btn")
+    .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    document.querySelectorAll(".card")
+    .forEach(card => {
+
+        card.style.display =
+            category === "all" ||
+            card.dataset.category === category
+            ? "block"
+            : "none";
+
+    });
+}
+
+document
+.getElementById("orderForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    if (cart.length === 0) {
+
+        alert("Please add an item to your cart.");
+
+        return;
+    }
+
+    const name =
+        document.getElementById("name").value;
+
+    const studentId =
+        document.getElementById("studentId").value;
+
+    const phone =
+        document.getElementById("phone").value;
+
+    const pickup =
+        document.getElementById("pickup").value;
+
+    const notes =
+        document.getElementById("notes").value;
+
+    let total = cart.reduce(
+        (sum, item) =>
+        sum + item.price * item.quantity, 0
+    );
+
+    let orderNumber =
+        "CAN" +
+        Math.floor(10000 + Math.random() * 90000);
+
+    let orderData = {
+
+        orderNumber: orderNumber,
+
+        name: name,
+
+        studentId: studentId,
+
+        phone: phone,
+
+        pickup: pickup,
+
+        notes: notes,
+
+        items: cart.map(item => ({
+
+            name: item.name,
+
+            price: item.price,
+
+            quantity: item.quantity
+
+        })),
+
+        total: total,
+
+        status: "Pending",
+
+        date: new Date().toLocaleString()
+
+    };
+
+    let orders =
+        JSON.parse(
+            localStorage.getItem("canteenOrders")
+        ) || [];
+
+    orders.push(orderData);
+
+    localStorage.setItem(
+        "canteenOrders",
+        JSON.stringify(orders)
+    );
+
+    document.getElementById("orderDetails").innerHTML = `
+
+        <strong>Order ID:</strong> ${orderNumber}
+        <br><br>
+
+        <strong>Name:</strong> ${name}
+        <br>
+
+        <strong>Pickup:</strong> ${pickup}
+        <br>
+
+        <strong>Total:</strong> ₹${total}
+
+    `;
+
+    document.getElementById(
+        "successMessage"
+    ).style.display = "block";
+
+    this.reset();
+
+    cart = [];
+
+    displayCart();
+
+});
+
+</script>
+
+</body>
+</html>
+```
